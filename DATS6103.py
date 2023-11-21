@@ -51,3 +51,23 @@ plt.title('Discovery Year vs Orbital Period of Exoplanets')
 plt.xlabel('Discovery Year')
 plt.ylabel('Orbital Period (years)')
 plt.show()
+
+# %%
+plt.figure(figsize=(30, 10))
+sns.countplot(x='detection_method', data=data, palette='viridis')
+# %%
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='distance', y='stellar_magnitude', data=data, alpha=0.7)
+plt.title('Relationship Between Distance and Stellar Magnitude in Exoplanet Discovery')
+plt.xlabel('Distance (parsecs)')
+plt.ylabel('Stellar Magnitude')
+plt.grid(True)
+plt.show()
+# %%
+plt.figure(figsize=(10, 6))
+plt.scatter(data['stellar_magnitude'],data['discovery_year'], alpha=0.5)
+plt.title('Stellar Magnitude vs Exoplanet Discovery Year')
+plt.xlabel('Stellar Magnitude')
+plt.ylabel('Discovery Year')
+plt.grid(True)
+plt.show()
