@@ -72,7 +72,17 @@ plt.ylabel('Discovery Year')
 plt.grid(True)
 plt.show()
 
+#%%
+## Correlation Matrix
 
+numerical_columns = data.select_dtypes(include = ['float64','int64']).columns
+
+correlation_matrix = data[numerical_columns].corr()
+
+plt.figure(figsize=(12, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=.5)
+plt.title("Correlation Matrix of Exoplanet Parameters")
+plt.show()
 
 #%%
 #Prediction
