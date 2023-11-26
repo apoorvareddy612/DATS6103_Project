@@ -84,6 +84,11 @@ sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidt
 plt.title("Correlation Matrix of Exoplanet Parameters")
 plt.show()
 
+interpretation = '''As we can see from the above plot, eccentricity and orbital period have  a positive correlation. When eccentricity increases, the orbital period also increases in a linear fashion and vice versa.
+Also, a very strong positive correlation can be seen between the variables orbital radius and orbital period. This implies that the planets farther away from their host star take longer to complete one  orbit.'''
+
+print(interpretation)
+
 #%%
 #Prediction
 
