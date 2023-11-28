@@ -104,6 +104,17 @@ contingency_table = pd.crosstab(data['planet_type'], data['detection_method'])
 # Chi-square test
 chi2, p, _, _ = chi2_contingency(contingency_table)
 
+# Print the results
+print("Chi-square value:", chi2)
+print("p-value:", p)
+
+# Interpret the results
+alpha = 0.05  # Set your significance level
+print("\nSignificance test:")
+if p < alpha:
+    print("There is a significant association between planet type and detection method.")
+else:
+    print("There is no significant association between planet type and detection method.")
 
 #%%
 #Prediction
