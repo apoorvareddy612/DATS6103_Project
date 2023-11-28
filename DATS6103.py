@@ -98,6 +98,11 @@ Alternative Hypothesis(Ha) : There is no significant association between planet 
 
 print(Hypothesis)
 
+# Contingency table (cross-tabulation) of planet_type and detection_method
+contingency_table = pd.crosstab(data['planet_type'], data['detection_method'])
+
+# Chi-square test
+chi2, p, _, _ = chi2_contingency(contingency_table)
 
 
 #%%
