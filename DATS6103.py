@@ -90,6 +90,17 @@ Also, a very strong positive correlation can be seen between the variables orbit
 print(interpretation)
 
 #%%
+#Chi square test to check if there a significant association between planet type and detection method
+from scipy.stats import chi2_contingency
+
+Hypothesis = '''Null Hypothesis(H0) : There is a significant association between planet type and detection methods.
+Alternative Hypothesis(Ha) : There is no significant association between planet types and detection methods'''
+
+print(Hypothesis)
+
+
+
+#%%
 #Prediction
 
 import pandas as pd
