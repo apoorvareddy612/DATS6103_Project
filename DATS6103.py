@@ -152,36 +152,11 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f'Accuracy: {accuracy}')
 
 # %%
-#Feature Engineering
-
-data['density'] = data['mass_multiplier'] / data['radius_multiplier']
-data['orbital_period_distance_interaction'] = data['orbital_period'] * data['distance']
-#For extracting temporal features from the 'discovery_year' column, we can extract month and season information
-#Extracting month or season from the 'discovery_year' column might reveal patterns in discovery frequency across different times of the year, aiding in understanding any seasonal patterns or influences on exoplanet discoveries.
-
-# Convert 'discovery_year' to datetime format
-data['discovery_year'] = pd.to_datetime(data['discovery_year'], format='%Y')
-
-# Extracting month from 'discovery_year'
-data['discovery_month'] = data['discovery_year'].dt.month
-
-# Extracting season from 'discovery_year'
-def get_season(month):
-    if month in [12, 1, 2]:
-        return 'Winter'
-    elif month in [3, 4, 5]:
-        return 'Spring'
-    elif month in [6, 7, 8]:
-        return 'Summer'
-    else:
-        return 'Autumn'
-
-data['discovery_season'] = data['discovery_month'].apply(get_season)
-
 
 #%%
 #Relationship Between Planet Type and Orbital Characteristics:    
 #Do certain planet types have distinct orbital periods, eccentricities, or orbital radii?
+data = pd.read_csv('cleaned.csv')
 
 # Grouping by planet type and calculating mean orbital characteristics
 orbital_characteristics = data.groupby('planet_type').agg({
@@ -288,7 +263,61 @@ print("Confusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
 
 
-
-
-
 # %%
+
+#For extracting temporal features from the 'discovery_year' column, we can extract month and season information
+#Extracting month or season from the 'discovery_year' column might reveal patterns in discovery frequency across different times of the year, aiding in understanding any seasonal patterns or influences on exoplanet discoveries.
+
+# Convert 'discovery_year' to datetime format
+data['discovery_year'] = pd.to_datetime(data['discovery_year'], format='%Y')
+
+# Extracting month from 'discovery_year'
+data['discovery_month'] = data['discovery_year'].dt.month
+
+# Extracting season from 'discovery_year'
+def get_season(month):
+    if month in [12, 1, 2]:
+        return 'Winter'
+    elif month in [3, 4, 5]:
+        return 'Spring'
+    elif month in [6, 7, 8]:
+        return 'Summer'
+    else:
+        return 'Autumn'
+
+data['discovery_season'] = data['discovery_month'].apply(get_season)
+
+
+#%%
+#Temporal Trends in Discoveries:
+#How has the rate of exoplanet discoveries evolved over the years? Are there any significant spikes or declines?
+#Visualizing Discoveries Over Time: Analyzing discoveries across different years helps identify trends, spikes, or declines in exoplanet discoveries. It reveals if there are periods of increased or decreased discovery rates.
+
+# Convert 'discovery_year' to datetime format and extract the year
+data['discovery_year'] = pd.to_datetime(data['discovery_year']).dt.year
+
+# Count the number of discoveries per year
+discoveries_per_year = data['discovery_year'].value_counts().sort_index()
+
+# Plotting the number of discoveries over the years
+plt.figure(figsize=(10, 6))
+discoveries_per_year.plot(kind='line', marker='o')
+plt.title('Number of Exoplanet Discoveries Over Time')
+plt.xlabel('Year')
+plt.ylabel('Number of Discoveries')
+plt.grid(True)
+plt.show()
+# %%
+#%%
+#Have certain detection methods become more prevalent or effective over time?
+# Grouping by year and detection method to count occurrences
+method_counts_over_time = data.groupby(['discovery_year', 'detection_method']).size().unstack(fill_value=0)
+
+# Plotting the prevalence of detection methods over time
+plt.figure(figsize=(12, 8))
+method_counts_over_time.plot(kind='area', stacked=True)
+plt.title('Prevalence of Detection Methods Over Time')
+plt.xlabel('Year')
+plt.ylabel('Number of Discoveries')
+plt.legend(title='Detection Method', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.show()
