@@ -152,10 +152,36 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f'Accuracy: {accuracy}')
 
 # %%
+#Feature Engineering
+
+data['density'] = data['mass_multiplier'] / data['radius_multiplier']
+data['orbital_period_distance_interaction'] = data['orbital_period'] * data['distance']
+#For extracting temporal features from the 'discovery_year' column, we can extract month and season information
+#Extracting month or season from the 'discovery_year' column might reveal patterns in discovery frequency across different times of the year, aiding in understanding any seasonal patterns or influences on exoplanet discoveries.
+
+# Convert 'discovery_year' to datetime format
+data['discovery_year'] = pd.to_datetime(data['discovery_year'], format='%Y')
+
+# Extracting month from 'discovery_year'
+data['discovery_month'] = data['discovery_year'].dt.month
+
+# Extracting season from 'discovery_year'
+def get_season(month):
+    if month in [12, 1, 2]:
+        return 'Winter'
+    elif month in [3, 4, 5]:
+        return 'Spring'
+    elif month in [6, 7, 8]:
+        return 'Summer'
+    else:
+        return 'Autumn'
+
+data['discovery_season'] = data['discovery_month'].apply(get_season)
+
+
+#%%
 #Relationship Between Planet Type and Orbital Characteristics:    
 #Do certain planet types have distinct orbital periods, eccentricities, or orbital radii?
-
-import seaborn as sns
 
 # Grouping by planet type and calculating mean orbital characteristics
 orbital_characteristics = data.groupby('planet_type').agg({
@@ -201,3 +227,68 @@ plt.title('Correlation between Planet Types and Detection Methods')
 plt.xlabel('Detection Method')
 plt.ylabel('Planet Type')
 plt.show()
+
+# %%
+# %%
+#What is the relationship between the distance of exoplanets from their host stars and their planetary characteristics, such as mass and radius?
+
+# Scatter plot for distance vs mass
+plt.figure(figsize=(10, 6))
+plt.scatter(data['orbital_radius'], data['mass_multiplier'], alpha=0.5)
+plt.title('Orbital Radius vs Mass of Exoplanets')
+plt.xlabel('Orbital Radius (AU)')
+plt.ylabel('Mass Multiplier (Relative to Jupiter)')
+plt.grid(True)
+plt.show()
+
+# Scatter plot for distance vs radius
+plt.figure(figsize=(10, 6))
+plt.scatter(data['orbital_radius'], data['radius_multiplier'], alpha=0.5)
+plt.title('Orbital Radius vs Radius of Exoplanets')
+plt.xlabel('Orbital Radius (AU)')
+plt.ylabel('Radius Multiplier (Relative to Jupiter)')
+plt.grid(True)
+plt.show()
+# %%
+#KNN model
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+# Selecting features and target variable
+features = ['mass_multiplier', 'radius_multiplier']
+target = 'planet_type'  
+
+# Dropping rows with missing values in the selected features and target
+selected_data = data[features + [target]].dropna()
+
+# Splitting the data into training and testing sets
+X = selected_data[features]  
+y = selected_data[target]  
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initializing and training the KNN model
+k = 5  
+knn = KNeighborsClassifier(n_neighbors=k)
+knn.fit(X_train, y_train)
+
+# Making predictions
+y_pred = knn.predict(X_test)
+
+# Evaluating the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy:.2f}')
+
+# Classification report and confusion matrix
+print("Classification Report:")
+print(classification_report(y_test, y_pred))
+
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+
+
+
+
+
+# %%
