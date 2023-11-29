@@ -201,4 +201,3 @@ plt.title('Correlation between Planet Types and Detection Methods')
 plt.xlabel('Detection Method')
 plt.ylabel('Planet Type')
 plt.show()
-# %%
