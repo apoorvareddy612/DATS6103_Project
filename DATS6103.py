@@ -123,3 +123,55 @@ y_pred = model.predict(X_test)
 # Evaluating the model
 accuracy = accuracy_score(y_test, y_pred)
 print(f'Accuracy: {accuracy}')
+
+# %%
+#Relationship Between Planet Type and Orbital Characteristics:    
+#Do certain planet types have distinct orbital periods, eccentricities, or orbital radii?
+
+import seaborn as sns
+
+# Grouping by planet type and calculating mean orbital characteristics
+orbital_characteristics = data.groupby('planet_type').agg({
+    'orbital_period': 'mean',
+    'eccentricity': 'mean',
+    'orbital_radius': 'mean'
+}).reset_index()
+
+# Plotting the relationship between planet type and orbital characteristics
+plt.figure(figsize=(12, 6))
+
+# Orbital Period vs Planet Type
+plt.subplot(131)
+sns.barplot(x='planet_type', y='orbital_period', data=orbital_characteristics)
+plt.title('Mean Orbital Period by Planet Type')
+plt.xticks(rotation=45)
+
+# Eccentricity vs Planet Type
+plt.subplot(132)
+sns.barplot(x='planet_type', y='eccentricity', data=orbital_characteristics)
+plt.title('Mean Eccentricity by Planet Type')
+plt.xticks(rotation=45)
+
+# Orbital Radius vs Planet Type
+plt.subplot(133)
+sns.barplot(x='planet_type', y='orbital_radius', data=orbital_characteristics)
+plt.title('Mean Orbital Radius by Planet Type')
+plt.xticks(rotation=45)
+
+plt.tight_layout()
+plt.show()
+
+# %%
+#Are there correlations between planet types and specific detection methods?
+
+# Creating a cross-tabulation between planet types and detection methods
+cross_tab = pd.crosstab(data['planet_type'], data['detection_method'])
+
+# Plotting a heatmap to visualize correlations
+plt.figure(figsize=(10, 6))
+sns.heatmap(cross_tab, cmap='viridis', annot=True, fmt='d')
+plt.title('Correlation between Planet Types and Detection Methods')
+plt.xlabel('Detection Method')
+plt.ylabel('Planet Type')
+plt.show()
+# %%
