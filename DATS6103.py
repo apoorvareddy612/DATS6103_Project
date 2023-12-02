@@ -241,3 +241,90 @@ if p < alpha:
     print("There is a significant association between planet type and detection method.")
 else:
     print("There is no significant association between planet type and detection method.")
+    
+#%%
+#Prediction
+
+##Models
+# Encoding the categorical target variable
+label_encoder = LabelEncoder()
+data['planet_type_encoded'] = label_encoder.fit_transform(data['planet_type'])
+
+# Selecting features and target variable
+features = ['mass_multiplier', 'radius_multiplier']
+target = 'planet_type_encoded'
+
+# Splitting the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(data[features], data[target], test_size=0.2, random_state=42)
+
+# Creating and training the random forest classifier model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+# Making predictions on the test set
+y_pred = model.predict(X_test)
+
+# Evaluating the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy:.2f}')
+print("Classification Report:")
+print(classification_report(y_test, y_pred))
+
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+# %%
+#KNN model
+# Selecting features and target variable
+features = ['mass_multiplier', 'radius_multiplier']
+target = 'planet_type'  
+
+# Dropping rows with missing values in the selected features and target
+selected_data = data[features + [target]].dropna()
+
+# Splitting the data into training and testing sets
+X = selected_data[features]  
+y = selected_data[target]  
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initializing and training the KNN model
+k = 5  
+knn = KNeighborsClassifier(n_neighbors=k)
+knn.fit(X_train, y_train)
+
+# Making predictions
+y_pred = knn.predict(X_test)
+
+# Evaluating the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy:.2f}')
+
+# Classification report and confusion matrix
+print("Classification Report:")
+print(classification_report(y_test, y_pred))
+
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+
+#%%
+## SVM model
+
+# Create an SVM model with hyperparameter tuning
+svm_model = SVC(kernel='rbf', C=100, gamma=10)  
+
+# Train the model
+svm_model.fit(X_train, y_train)
+
+# Make predictions on the  test set
+predictions = svm_model.predict(X_test)
+
+# Make predictions on the  test set
+predictions = svm_model.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, predictions)
+classification_report_result = classification_report(y_test, predictions)
+
+print(f'Accuracy: {accuracy:.2f}')
+print('\nClassification Report:')
+print(classification_report_result)
