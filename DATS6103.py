@@ -231,6 +231,25 @@ print(model.summary())
 
 
 #%%
+#Exploring Relationship between Distance and Planetary Characteristics:
+# Scatter plot for distance vs mass and radius
+plt.figure(figsize=(10, 6))
+plt.scatter(data['distance'], data['mass'], alpha=0.5)
+plt.title('Distance vs Mass of Exoplanets')
+plt.xlabel('Distance from Host Star (parsecs)')
+plt.ylabel('Mass Multiplier (Relative to Jupiter)')
+plt.grid(True)
+plt.show()
+
+plt.figure(figsize=(10, 6))
+plt.scatter(data['distance'], data['radius'], alpha=0.5)
+plt.title('Distance vs Radius of Exoplanets')
+plt.xlabel('Distance from Host Star (parsecs)')
+plt.ylabel('Radius Multiplier (Relative to Jupiter)')
+plt.grid(True)
+plt.show()
+
+
 
 #%%
 #Analyzing Relationships Among Orbital Characteristics and Host Stars:
