@@ -326,3 +326,25 @@ plt.xlabel('Year')
 plt.ylabel('Number of Discoveries')
 plt.legend(title='Detection Method', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.show()
+
+#%%
+#Examining the Impact of Discovery Year on Orbital Period Significance:
+#
+import statsmodels.api as sm
+
+# Considering 'orbital_period' as the dependent variable and 'discovery_year' as the independent variable
+X = data['discovery_year']
+y = data['orbital_period']
+
+# Adding a constant term to the independent variable
+X = sm.add_constant(X)
+
+# Fit linear regression model
+model = sm.OLS(y, X).fit()
+
+# Summary of the regression model
+print(model.summary())
+
+
+#%%
+
