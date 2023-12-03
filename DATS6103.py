@@ -3,6 +3,11 @@
 #### DATS6103 'Introduction to Data Mining'
 ##### Team Members: Apoorva Reddy Bagepalli, Saniya, Pratiksha, Tulasi
 ##### Project description
+#NASA(National Aeronautics and Space Administration) is researching and exploring the space for different planets, galaxies and other space wonders. In addition to searching planets, they are also investigating for the ones which can be suitable for the living which is beyond our solar system. Until now NASA discovered 5,550 exoplanets using different Detection methods.\
+#\
+# In our project we use the data consisting about different discovered exoplanets from 1992 to 2023. To analyse and study the patterns/trends of the exoplanets, which will help us to learn about them and their characteristics.\
+#\
+#We conduct EDA(Exploratory Data Analysis) and Predictive Modelling to learn about the features
 #%%
 #Main Code
 ## Importing the libraries
@@ -37,7 +42,10 @@ ax.legend(title='Detection Method', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.show()
 
 #%%[markdown]
-
+#* There were 11 detection methods used since 1992 to 2023
+#* Out of all the detection methods, Transit was used to discover more exoplanets than others (1453 exoplanets) in 2016 and other years too
+#* Out of all the discovery years, 2016 had most exoplanet discoveries
+#* Disk Kinematics was the least used detection method 
 #%%
 ## Count Plot to show the total number of exoplanets discovered for each planet type  using different detection methods
 count_data = data.groupby(['planet_type', 'detection_method']).size().unstack(fill_value=0)
@@ -54,6 +62,9 @@ ax.legend(title='Detection Method', bbox_to_anchor=(1.05, 1), loc='upper left')
 # Show the plot
 plt.show()
 #%%[markdown]
+#* Neptune-like exoplanets were mostly discovered compared to other type of exoplanets
+#* Gas Giants xoplanets have been discovered by various detection methods
+
 
 #%%
 ##Boxplot to o visualize the relationship between discovery year and orbital period
@@ -74,6 +85,9 @@ plt.xlabel('Discovery Year')
 plt.ylabel('Orbital Period (years)')
 plt.show()
 #%%[markdown]
+#* Exoplanets with >1 orbital period were easy to capture by the NASA and they found alot of them
+#* Exoplanets with <1 orbital period were hard to find and there are limited discoveries
+#* The range of exoplanets with >1 period is more than the exoplanets with <1 period
 
 # %%
 ##Count plot to show the total number of exoplanets for each detection type.
@@ -81,7 +95,9 @@ plt.figure(figsize=(30, 10))
 sns.countplot(x='detection_method', data=data, palette='viridis')
 
 #%%[markdown]
-
+#* Exoplanets with small stellar magnitude value and less distance from the Earth are brighter
+#* But some exoplanets are bright even though they are far away from the Earth 
+#* Most of the exoplanets discovered were near to the Earth and have smaller Stellar Magnitude value 
 # %%
 ##Scatter plot to show the relationship between distance and stellar magnitude in exoplanet discovery
 plt.figure(figsize=(10, 6))
@@ -93,7 +109,8 @@ plt.grid(True)
 plt.show()
 
 #%%[markdown]
-
+#* From the aobve plot we can interpret very easily that NASA was able to discover most of the exoplanets because of its smaller stellar magnitude values (<20)
+#* Only one exoplanet was discovered which has more than 40 stellar magnitude value
 # %%
 ##Scatter Plot to show the relationship between stellar magnitude and discovery year.
 plt.figure(figsize=(10, 6))
