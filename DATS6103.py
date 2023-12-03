@@ -250,6 +250,9 @@ plt.grid(True)
 plt.show()
 
 
+#%%
+
+
 
 #%%
 #Analyzing Relationships Among Orbital Characteristics and Host Stars:
@@ -383,3 +386,26 @@ classification_report_result = classification_report(y_test, predictions)
 print(f'Accuracy: {accuracy:.2f}')
 print('\nClassification Report:')
 print(classification_report_result)
+
+
+#%%
+#Gradient Boosting Classifier
+from sklearn.ensemble import GradientBoostingClassifier
+
+# Create and train Gradient Boosting Classifier
+gb_model = GradientBoostingClassifier(n_estimators=100, learning_rate=1.0, max_depth=1, random_state=42)
+gb_model.fit(X_train, y_train)
+
+# Predict using the test set
+y_pred_gb = gb_model.predict(X_test)
+
+# Evaluate the model
+accuracy_gb = accuracy_score(y_test, y_pred_gb)
+classification_report_gb = classification_report(y_test, y_pred_gb)
+
+print(f'Gradient Boosting Accuracy: {accuracy_gb:.2f}')
+print('\nGradient Boosting Classification Report:')
+print(classification_report_gb)
+
+
+
