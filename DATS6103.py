@@ -1,5 +1,10 @@
+#%%[markdown]
+## PROJECT FALL 2023
+#### DATS6103 'Introduction to Data Mining'
+##### Team Members: Apoorva Reddy Bagepalli, Saniya, Pratiksha, Tulasi
+##### Project description
 #%%
-#This is our main code file
+#Main Code
 ## Importing the libraries
 import pandas as pd
 import matplotlib.pyplot as plt 
@@ -30,6 +35,9 @@ ax.legend(title='Detection Method', bbox_to_anchor=(1.05, 1), loc='upper left')
 
 # Show the plot
 plt.show()
+
+#%%[markdown]
+
 #%%
 ## Count Plot to show the total number of exoplanets discovered for each planet type  using different detection methods
 count_data = data.groupby(['planet_type', 'detection_method']).size().unstack(fill_value=0)
@@ -45,6 +53,8 @@ ax.legend(title='Detection Method', bbox_to_anchor=(1.05, 1), loc='upper left')
 
 # Show the plot
 plt.show()
+#%%[markdown]
+
 #%%
 ##Boxplot to o visualize the relationship between discovery year and orbital period
 #Orbital Period
@@ -63,10 +73,15 @@ plt.title('Discovery Year vs Orbital Period of Exoplanets')
 plt.xlabel('Discovery Year')
 plt.ylabel('Orbital Period (years)')
 plt.show()
+#%%[markdown]
+
 # %%
 ##Count plot to show the total number of exoplanets for each detection type.
 plt.figure(figsize=(30, 10))
 sns.countplot(x='detection_method', data=data, palette='viridis')
+
+#%%[markdown]
+
 # %%
 ##Scatter plot to show the relationship between distance and stellar magnitude in exoplanet discovery
 plt.figure(figsize=(10, 6))
@@ -76,6 +91,9 @@ plt.xlabel('Distance (parsecs)')
 plt.ylabel('Stellar Magnitude')
 plt.grid(True)
 plt.show()
+
+#%%[markdown]
+
 # %%
 ##Scatter Plot to show the relationship between stellar magnitude and discovery year.
 plt.figure(figsize=(10, 6))
@@ -85,6 +103,8 @@ plt.xlabel('Stellar Magnitude')
 plt.ylabel('Discovery Year')
 plt.grid(True)
 plt.show()
+
+#%%[markdown]
 
 #%%
 #Relationship Between Planet Type and Orbital Characteristics:    
