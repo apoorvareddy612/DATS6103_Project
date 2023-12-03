@@ -409,3 +409,22 @@ print(classification_report_gb)
 
 
 
+#%%
+#Naive Bayes Classifier
+from sklearn.naive_bayes import GaussianNB
+
+# Create and train Naive Bayes Classifier
+nb_model = GaussianNB()
+nb_model.fit(X_train, y_train)
+
+# Predict using the test set
+y_pred_nb = nb_model.predict(X_test)
+
+# Evaluate the model
+accuracy_nb = accuracy_score(y_test, y_pred_nb)
+classification_report_nb = classification_report(y_test, y_pred_nb)
+
+print(f'Naive Bayes Accuracy: {accuracy_nb:.2f}')
+print('\nNaive Bayes Classification Report:')
+print(classification_report_nb)
+
