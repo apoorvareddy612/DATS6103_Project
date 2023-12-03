@@ -233,8 +233,8 @@ print(model.summary())
 #%%
 #Exploring Relationship between Distance and Planetary Characteristics:
 # Scatter plot for distance vs mass and radius
-plt.figure(figsize=(10, 6))
-plt.scatter(data['distance'], data['mass'], alpha=0.5)
+plt.figure(figsize=(8, 6))
+plt.scatter(data['distance'], data['mass_multiplier'], alpha=0.5)
 plt.title('Distance vs Mass of Exoplanets')
 plt.xlabel('Distance from Host Star (parsecs)')
 plt.ylabel('Mass Multiplier (Relative to Jupiter)')
@@ -242,16 +242,12 @@ plt.grid(True)
 plt.show()
 
 plt.figure(figsize=(10, 6))
-plt.scatter(data['distance'], data['radius'], alpha=0.5)
+plt.scatter(data['distance'], data['radius_multiplier'], alpha=0.5)
 plt.title('Distance vs Radius of Exoplanets')
 plt.xlabel('Distance from Host Star (parsecs)')
 plt.ylabel('Radius Multiplier (Relative to Jupiter)')
 plt.grid(True)
 plt.show()
-
-
-#%%
-
 
 
 #%%
@@ -428,3 +424,51 @@ print(f'Naive Bayes Accuracy: {accuracy_nb:.2f}')
 print('\nNaive Bayes Classification Report:')
 print(classification_report_nb)
 
+
+
+#%%
+#Accuracy Comparision of the models
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import accuracy_score, classification_report
+import pandas as pd
+
+# Creating a dictionary to store classifier names and their instances
+classifiers = {
+    'Random Forest': RandomForestClassifier(n_estimators=100, random_state=42),
+    'KNN': KNeighborsClassifier(n_neighbors=5),
+    'SVM': SVC(kernel='rbf', C=100, gamma=10),
+    'Naive Bayes': GaussianNB(),
+    'Gradient Boosting': GradientBoostingClassifier(n_estimators=100, learning_rate=1.0, max_depth=1, random_state=42)
+}
+
+# Storing results
+results = {'Algorithm': [], 'Accuracy': []}
+
+# Evaluating each classifier
+for clf_name, clf in classifiers.items():
+    clf.fit(X_train, y_train)
+    y_pred = clf.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    results['Algorithm'].append(clf_name)
+    results['Accuracy'].append(accuracy)
+
+# Creating a DataFrame to display results
+results_df = pd.DataFrame(results)
+
+# Displaying the accuracy comparison
+print(results_df)
+
+# Plotting accuracy comparison
+plt.figure(figsize=(10, 6))
+plt.bar(results_df['Algorithm'], results_df['Accuracy'], color='skyblue')
+plt.xlabel('Algorithm')
+plt.ylabel('Accuracy')
+plt.title('Accuracy Comparison of Different Classifiers')
+plt.xticks(rotation=45)
+plt.ylim(0.0, 1.0)
+plt.tight_layout()
+plt.show()
