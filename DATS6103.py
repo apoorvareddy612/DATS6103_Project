@@ -420,6 +420,38 @@ print(f'Accuracy: {accuracy:.2f}')
 print('\nClassification Report:')
 print(classification_report_result)
 
+#%%
+##Adding cross validation code to choose the best hyperparameters(C and gamma value)
+
+# Create an SVM model with hyperparameter tuning
+svm_model = SVC(kernel='rbf')
+
+# Define the hyperparameters grid for tuning
+param_grid = {'C': [0.1, 1, 10, 100],
+              'gamma': [10,1, 0.1, 0.01, 0.001, 0.0001],
+              'kernel': ['rbf']}
+
+# Instantiate GridSearchCV with the SVM model and parameters grid
+grid_search = GridSearchCV(svm_model, param_grid, cv=5, scoring='accuracy', verbose=1)
+
+# Train the model with cross-validation
+grid_search.fit(X_train, y_train)
+
+# Get the best parameters and best estimator from the grid search
+best_params = grid_search.best_params_
+best_estimator = grid_search.best_estimator_
+
+# Make predictions on the test set using the best estimator
+predictions = best_estimator.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, predictions)
+classification_report_result = classification_report(y_test, predictions)
+
+print(f'Best Parameters: {best_params}')
+print(f'Accuracy: {accuracy:.2f}')
+print('\nClassification Report:')
+print(classification_report_result)
 
 #%%
 #Gradient Boosting Classifier
