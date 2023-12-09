@@ -20,6 +20,8 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 from sklearn.preprocessing import LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
+
 
 #%%
 ##Reading the file:
@@ -288,25 +290,6 @@ plt.show()
 
 
 #%%
-#Analyzing Relationships Among Orbital Characteristics and Host Stars:
-# Pairplot to visualize relationships between orbital characteristics and host stars
-sns.pairplot(data, vars=['orbital_radius', 'orbital_period', 'eccentricity', 'stellar_magnitude'])
-plt.show()
-
-# Correlation between features and correlation heatmap
-correlation_matrix = data[['orbital_radius', 'orbital_period', 'eccentricity', 'stellar_magnitude']].corr()
-sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
-plt.title("Correlation Between Orbital Characteristics and Stellar Magnitude")
-plt.show()
-
-
-#%%
-
-interpretation = '''As we can see from the above plot, eccentricity and orbital period have  a positive correlation. When eccentricity increases, the orbital period also increases in a linear fashion and vice versa.
-Also, a very strong positive correlation can be seen between the variables orbital radius and orbital period. This implies that the planets farther away from their host star take longer to complete one  orbit.'''
-
-print(interpretation)
-#%%
 #Chi square test to check if there a significant association between planet type and detection method
 from scipy.stats import chi2_contingency
 
@@ -541,3 +524,26 @@ plt.xticks(rotation=45)
 plt.ylim(0.0, 1.0)
 plt.tight_layout()
 plt.show()
+
+#%%
+#Analyzing Relationships Among Orbital Characteristics and Host Stars:
+# Pairplot to visualize relationships between orbital characteristics and host stars
+sns.pairplot(data, vars=['orbital_radius', 'orbital_period', 'eccentricity', 'stellar_magnitude'])
+plt.show()
+
+# Correlation between features and correlation heatmap
+correlation_matrix = data[['orbital_radius', 'orbital_period', 'eccentricity', 'stellar_magnitude']].corr()
+
+
+
+#%%
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title("Correlation Between Orbital Characteristics and Stellar Magnitude")
+plt.show()
+
+#%%
+
+interpretation = '''As we can see from the above plot, eccentricity and orbital period have  a positive correlation. When eccentricity increases, the orbital period also increases in a linear fashion and vice versa.
+Also, a very strong positive correlation can be seen between the variables orbital radius and orbital period. This implies that the planets farther away from their host star take longer to complete one  orbit.'''
+
+print(interpretation)
