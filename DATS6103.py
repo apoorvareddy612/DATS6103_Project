@@ -161,19 +161,22 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
 
+#%%[markdown]
+#* When compared with Orbital Period, Eccentricity and Orbital Radius, Gas-Giant planet type have high mean values in all the three features
 #%%
-#Are there correlations between planet types and specific detection methods?
+# #Are there correlations between planet types and specific detection methods?
 
-# Creating a cross-tabulation between planet types and detection methods
-cross_tab = pd.crosstab(data['planet_type'], data['detection_method'])
+# # Creating a cross-tabulation between planet types and detection methods
+# cross_tab = pd.crosstab(data['planet_type'], data['detection_method'])
 
-# Plotting a heatmap to visualize correlations
-plt.figure(figsize=(10, 6))
-sns.heatmap(cross_tab, cmap='viridis', annot=True, fmt='d')
-plt.title('Correlation between Planet Types and Detection Methods')
-plt.xlabel('Detection Method')
-plt.ylabel('Planet Type')
-plt.show()
+# # Plotting a heatmap to visualize correlations
+# plt.figure(figsize=(10, 6))
+# sns.heatmap(cross_tab, cmap='viridis', annot=True, fmt='d')
+# plt.title('Correlation between Planet Types and Detection Methods')
+# plt.xlabel('Detection Method')
+# plt.ylabel('Planet Type')
+# plt.show()
+
 # %%
 #What is the relationship between the distance of exoplanets from their host stars and their planetary characteristics, such as mass and radius?
 
@@ -186,37 +189,41 @@ plt.ylabel('Mass Multiplier (Relative to Jupiter)')
 plt.grid(True)
 plt.show()
 
-# Scatter plot for distance vs radius
-plt.figure(figsize=(10, 6))
-plt.scatter(data['orbital_radius'], data['radius_multiplier'], alpha=0.5)
-plt.title('Orbital Radius vs Radius of Exoplanets')
-plt.xlabel('Orbital Radius (AU)')
-plt.ylabel('Radius Multiplier (Relative to Jupiter)')
-plt.grid(True)
-plt.show()
-#%%
+# # Scatter plot for distance vs radius
+# plt.figure(figsize=(10, 6))
+# plt.scatter(data['orbital_radius'], data['radius_multiplier'], alpha=0.5)
+# plt.title('Orbital Radius vs Radius of Exoplanets')
+# plt.xlabel('Orbital Radius (AU)')
+# plt.ylabel('Radius Multiplier (Relative to Jupiter)')
+# plt.grid(True)
+# plt.show()
+#%%[markdown]
+#* The plot interprets the relation of Orbital radii with Mass Multiplier w.r.t to Jupiter 
+#* Most the exoplanets are have similar pattern but two exoplanets have extreme values. 
+#* One of the exoplanet have 700 times heavier more than Jupiter with less orbital radius
+#* And the other one, largest orbital radius with similar Mass multiplier of other exoplanet
 # %%
 #For extracting temporal features from the 'discovery_year' column, we can extract month and season information
 #Extracting month or season from the 'discovery_year' column might reveal patterns in discovery frequency across different times of the year, aiding in understanding any seasonal patterns or influences on exoplanet discoveries.
 
-# Convert 'discovery_year' to datetime format
-data['discovery_year'] = pd.to_datetime(data['discovery_year'], format='%Y')
+# # Convert 'discovery_year' to datetime format
+# data['discovery_year'] = pd.to_datetime(data['discovery_year'], format='%Y')
 
-# Extracting month from 'discovery_year'
-data['discovery_month'] = data['discovery_year'].dt.month
+# # Extracting month from 'discovery_year'
+# data['discovery_month'] = data['discovery_year'].dt.month
 
-# Extracting season from 'discovery_year'
-def get_season(month):
-    if month in [12, 1, 2]:
-        return 'Winter'
-    elif month in [3, 4, 5]:
-        return 'Spring'
-    elif month in [6, 7, 8]:
-        return 'Summer'
-    else:
-        return 'Autumn'
+# # Extracting season from 'discovery_year'
+# def get_season(month):
+#     if month in [12, 1, 2]:
+#         return 'Winter'
+#     elif month in [3, 4, 5]:
+#         return 'Spring'
+#     elif month in [6, 7, 8]:
+#         return 'Summer'
+#     else:
+#         return 'Autumn'
 
-data['discovery_season'] = data['discovery_month'].apply(get_season)
+# data['discovery_season'] = data['discovery_month'].apply(get_season)
 
 
 #%%
@@ -250,35 +257,35 @@ sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidt
 plt.title("Correlation Matrix of Exoplanet Parameters")
 plt.show()
 
-#%%
-#Examining the Impact of Discovery Year on Orbital Period Significance:
-#
-import statsmodels.api as sm
+# #%%
+# #Examining the Impact of Discovery Year on Orbital Period Significance:
+# #
+# import statsmodels.api as sm
 
-# Considering 'orbital_period' as the dependent variable and 'discovery_year' as the independent variable
-X = data['discovery_year']
-y = data['orbital_period']
+# # Considering 'orbital_period' as the dependent variable and 'discovery_year' as the independent variable
+# X = data['discovery_year']
+# y = data['orbital_period']
 
-# Adding a constant term to the independent variable
-X = sm.add_constant(X)
+# # Adding a constant term to the independent variable
+# X = sm.add_constant(X)
 
-# Fit linear regression model
-model = sm.OLS(y, X).fit()
+# # Fit linear regression model
+# model = sm.OLS(y, X).fit()
 
-# Summary of the regression model
-print(model.summary())
+# # Summary of the regression model
+# print(model.summary())
 
 
 #%%
 #Exploring Relationship between Distance and Planetary Characteristics:
 # Scatter plot for distance vs mass and radius
-plt.figure(figsize=(8, 6))
-plt.scatter(data['distance'], data['mass_multiplier'], alpha=0.5)
-plt.title('Distance vs Mass of Exoplanets')
-plt.xlabel('Distance from Host Star (parsecs)')
-plt.ylabel('Mass Multiplier (Relative to Jupiter)')
-plt.grid(True)
-plt.show()
+# plt.figure(figsize=(8, 6))
+# plt.scatter(data['distance'], data['mass_multiplier'], alpha=0.5)
+# plt.title('Distance vs Mass of Exoplanets')
+# plt.xlabel('Distance from Host Star (parsecs)')
+# plt.ylabel('Mass Multiplier (Relative to Jupiter)')
+# plt.grid(True)
+# plt.show()
 
 plt.figure(figsize=(10, 6))
 plt.scatter(data['distance'], data['radius_multiplier'], alpha=0.5)
@@ -286,8 +293,9 @@ plt.title('Distance vs Radius of Exoplanets')
 plt.xlabel('Distance from Host Star (parsecs)')
 plt.ylabel('Radius Multiplier (Relative to Jupiter)')
 plt.grid(True)
-plt.show()
-
+plt.show() 
+#%%[markdown]
+#* 
 
 #%%
 #Chi square test to check if there a significant association between planet type and detection method
@@ -436,45 +444,45 @@ print(f'Accuracy: {accuracy:.2f}')
 print('\nClassification Report:')
 print(classification_report_result)
 
-#%%
-#Gradient Boosting Classifier
-from sklearn.ensemble import GradientBoostingClassifier
+# #%%
+# #Gradient Boosting Classifier
+# from sklearn.ensemble import GradientBoostingClassifier
 
-# Create and train Gradient Boosting Classifier
-gb_model = GradientBoostingClassifier(n_estimators=100, learning_rate=1.0, max_depth=1, random_state=42)
-gb_model.fit(X_train, y_train)
+# # Create and train Gradient Boosting Classifier
+# gb_model = GradientBoostingClassifier(n_estimators=100, learning_rate=1.0, max_depth=1, random_state=42)
+# gb_model.fit(X_train, y_train)
 
-# Predict using the test set
-y_pred_gb = gb_model.predict(X_test)
+# # Predict using the test set
+# y_pred_gb = gb_model.predict(X_test)
 
-# Evaluate the model
-accuracy_gb = accuracy_score(y_test, y_pred_gb)
-classification_report_gb = classification_report(y_test, y_pred_gb)
+# # Evaluate the model
+# accuracy_gb = accuracy_score(y_test, y_pred_gb)
+# classification_report_gb = classification_report(y_test, y_pred_gb)
 
-print(f'Gradient Boosting Accuracy: {accuracy_gb:.2f}')
-print('\nGradient Boosting Classification Report:')
-print(classification_report_gb)
+# print(f'Gradient Boosting Accuracy: {accuracy_gb:.2f}')
+# print('\nGradient Boosting Classification Report:')
+# print(classification_report_gb)
 
 
 
-#%%
-#Naive Bayes Classifier
-from sklearn.naive_bayes import GaussianNB
+# #%%
+# #Naive Bayes Classifier
+# from sklearn.naive_bayes import GaussianNB
 
-# Create and train Naive Bayes Classifier
-nb_model = GaussianNB()
-nb_model.fit(X_train, y_train)
+# # Create and train Naive Bayes Classifier
+# nb_model = GaussianNB()
+# nb_model.fit(X_train, y_train)
 
-# Predict using the test set
-y_pred_nb = nb_model.predict(X_test)
+# # Predict using the test set
+# y_pred_nb = nb_model.predict(X_test)
 
-# Evaluate the model
-accuracy_nb = accuracy_score(y_test, y_pred_nb)
-classification_report_nb = classification_report(y_test, y_pred_nb)
+# # Evaluate the model
+# accuracy_nb = accuracy_score(y_test, y_pred_nb)
+# classification_report_nb = classification_report(y_test, y_pred_nb)
 
-print(f'Naive Bayes Accuracy: {accuracy_nb:.2f}')
-print('\nNaive Bayes Classification Report:')
-print(classification_report_nb)
+# print(f'Naive Bayes Accuracy: {accuracy_nb:.2f}')
+# print('\nNaive Bayes Classification Report:')
+# print(classification_report_nb)
 
 
 
@@ -493,8 +501,8 @@ classifiers = {
     'Random Forest': RandomForestClassifier(n_estimators=100, random_state=42),
     'KNN': KNeighborsClassifier(n_neighbors=5),
     'SVM': SVC(kernel='rbf', C=100, gamma=10),
-    'Naive Bayes': GaussianNB(),
-    'Gradient Boosting': GradientBoostingClassifier(n_estimators=100, learning_rate=1.0, max_depth=1, random_state=42)
+    # 'Naive Bayes': GaussianNB(),
+    # 'Gradient Boosting': GradientBoostingClassifier(n_estimators=100, learning_rate=1.0, max_depth=1, random_state=42)
 }
 
 # Storing results
