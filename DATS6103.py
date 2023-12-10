@@ -525,18 +525,14 @@ plt.ylim(0.0, 1.0)
 plt.tight_layout()
 plt.show()
 
-#%%
-#Analyzing Relationships Among Orbital Characteristics and Host Stars:
-# Pairplot to visualize relationships between orbital characteristics and host stars
-sns.pairplot(data, vars=['orbital_radius', 'orbital_period', 'eccentricity', 'stellar_magnitude'])
-plt.show()
 
+
+
+
+
+#%%
 # Correlation between features and correlation heatmap
 correlation_matrix = data[['orbital_radius', 'orbital_period', 'eccentricity', 'stellar_magnitude']].corr()
-
-
-
-#%%
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
 plt.title("Correlation Between Orbital Characteristics and Stellar Magnitude")
 plt.show()
