@@ -26,7 +26,7 @@ from sklearn.svm import SVC
 data = pd.read_csv('cleaned.csv')
 print(data.head()) ##Printing the first five rows of dataset
 #%%
-##Count Plot to show the number of exoplanets discovered in each yeat from 1992-2023 using different detection methods
+## 1. Count Plot to show the number of exoplanets discovered in each yeat from 1992-2023 using different detection methods
 count_data = data.groupby(['discovery_year', 'detection_method']).size().unstack(fill_value=0)
 
 # Plot the stacked bar plot
@@ -67,7 +67,7 @@ plt.show()
 
 
 #%%
-##Boxplot to o visualize the relationship between discovery year and orbital period
+# 3. Boxplot to  visualize the relationship between discovery year and orbital period
 #Orbital Period
 data['orbital_period'].value_counts()
 data['Orbital_Period'] = ''
@@ -124,7 +124,7 @@ plt.show()
 #%%[markdown]
 
 #%%
-#Relationship Between Planet Type and Orbital Characteristics:    
+#6. Relationship Between Planet Type and Orbital Characteristics:    
 #Do certain planet types have distinct orbital periods, eccentricities, or orbital radii?
 data = pd.read_csv('cleaned.csv')
 
@@ -158,7 +158,19 @@ plt.xticks(rotation=45)
 
 plt.tight_layout()
 plt.show()
+#%%[markdown]
+#* Planet Type vs Orbital Period:
+#* Hot Jupiters have the shortest orbital periods on average, while cold/cool gas giants have longer orbital periods.
+#* Rocky and cold gas planets span a wide range of possible periods.
 
+#* Planet Type vs Eccentricity:
+#* Hot Jupiters tend to have circular orbits with low eccentricity.
+#* Rocky and cool planets display a large spread of eccentricities from circular to highly elliptical.
+
+#* Planet Type vs Orbital Radius:
+#* Hot Jupiters orbit extremely close to their host stars.
+#* Cool/cold planets have wider orbital radii on average.
+#* Orbit distances vary widely for rocky planets.
 #%%
 #Are there correlations between planet types and specific detection methods?
 
@@ -172,6 +184,11 @@ plt.title('Correlation between Planet Types and Detection Methods')
 plt.xlabel('Detection Method')
 plt.ylabel('Planet Type')
 plt.show()
+#%%[markdown]
+#* Radial velocity detects hot Jupiters, sub-Earths, and Neptune-like planets of various masses.
+#* Transit detection focuses on hot Earths, super-Earths, and terrestrials, mainly favoring short-orbit planets.
+#* Both methods reveal similar planets, with transit biased toward smaller ones.
+#* Gas giants beyond hot Jupiters are rarely found using transit detection.
 # %%
 #What is the relationship between the distance of exoplanets from their host stars and their planetary characteristics, such as mass and radius?
 
@@ -192,7 +209,10 @@ plt.xlabel('Orbital Radius (AU)')
 plt.ylabel('Radius Multiplier (Relative to Jupiter)')
 plt.grid(True)
 plt.show()
-#%%
+#%%[markdown]
+#* Exoplanet mass and orbital radius lack a clear correlation; data points appear scattered, hinting at no underlying relationship.
+#* Higher mass planets (over 2-3x Jupiter) cluster at longer orbital distances, but low mass exoplanets span the entire range of measured radii.
+#* The plot showcases diverse exoplanet masses across orbital distances. 
 # %%
 #For extracting temporal features from the 'discovery_year' column, we can extract month and season information
 #Extracting month or season from the 'discovery_year' column might reveal patterns in discovery frequency across different times of the year, aiding in understanding any seasonal patterns or influences on exoplanet discoveries.
@@ -218,9 +238,8 @@ data['discovery_season'] = data['discovery_month'].apply(get_season)
 
 
 #%%
-#Temporal Trends in Discoveries:
-#How has the rate of exoplanet discoveries evolved over the years? Are there any significant spikes or declines?
-#Visualizing Discoveries Over Time: Analyzing discoveries across different years helps identify trends, spikes, or declines in exoplanet discoveries. It reveals if there are periods of increased or decreased discovery rates.
+
+# 2. How has the rate of exoplanet discoveries evolved over the years? Are there any significant spikes or declines?
 
 # Convert 'discovery_year' to datetime format and extract the year
 data['discovery_year'] = pd.to_datetime(data['discovery_year']).dt.year
@@ -237,6 +256,10 @@ plt.ylabel('Number of Discoveries')
 plt.grid(True)
 plt.show()
 
+#%%[markdown]
+#* There is an overall exponential upward trend in the rate of exoplanet discoveries since the early 1990s, indicating rapidly accelerating detection capabilities. 
+#* Two noticeable spikes occur in 2014 and 2016, suggesting breakthroughs in discovery techniques or observational power during these years. 
+#* After the 2016 spike, the discovery rate declines somewhat but still remains higher than pre-2016 levels. This could indicate limitations in sustaining the suddenly increased discovery rates achieved in 2016. 
 #%%
 ## Correlation Matrix
 numerical_columns = data.select_dtypes(include = ['float64','int64']).columns
@@ -265,10 +288,20 @@ model = sm.OLS(y, X).fit()
 
 # Summary of the regression model
 print(model.summary())
-
+#%%[markdown]
+#* R-squared: 0.000 indicates the model lacks explanatory power; discovery year doesn't explain orbital period variation.
+#* Regression F-test: High p-value (0.362) suggests discovery year isn't statistically significant in explaining orbital period.
+#* Coefficient significance: Discovery year's p-value (0.362) confirms its lack of relevance.
+#* 95% confidence interval: Wide span (-56.488 to 154.649) around the coefficient further confirms the absence of a predictive relationship.
+#* Issues: High multicollinearity, non-normal residuals, and heteroscedasticity signal serious problems in this simplistic model.
+#%%[markdown]
+#* Strong positive correlation: Mass increases with radius, reflecting internal density and composition relationships.
+#* Moderate negative correlation: Orbital period decreases with orbital radius, likely due to gravitational effects.
+#* Weak correlations: Eccentricity shows limited associations with other parameters, indicating diverse evolutionary factors.
+#* Apart from mass-radius, weak correlations prevail, highlighting exoplanet diversity and complex planetary system dynamics.
 
 #%%
-#Exploring Relationship between Distance and Planetary Characteristics:
+#5. Exploring Relationship between Distance and Planetary Characteristics:
 # Scatter plot for distance vs mass and radius
 plt.figure(figsize=(8, 6))
 plt.scatter(data['distance'], data['mass_multiplier'], alpha=0.5)
@@ -288,18 +321,39 @@ plt.show()
 
 
 #%%
-#Analyzing Relationships Among Orbital Characteristics and Host Stars:
-# Pairplot to visualize relationships between orbital characteristics and host stars
-sns.pairplot(data, vars=['orbital_radius', 'orbital_period', 'eccentricity', 'stellar_magnitude'])
+# 4. Analyzing Relationships Among Orbital Characteristics and Host Stars:
+#Scatter plot to visualize relationships between orbital characteristics and host stars
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Scatter plots between pairs of variables
+plt.figure(figsize=(10, 8))
+
+plt.subplot(221)
+sns.scatterplot(x='orbital_radius', y='orbital_period', data=data)
+plt.title('Orbital Radius vs Orbital Period')
+
+plt.subplot(222)
+sns.scatterplot(x='orbital_radius', y='eccentricity', data=data)
+plt.title('Orbital Radius vs Eccentricity')
+
+plt.subplot(223)
+sns.scatterplot(x='orbital_radius', y='stellar_magnitude', data=data)
+plt.title('Orbital Radius vs Stellar Magnitude')
+
+plt.subplot(224)
+sns.scatterplot(x='orbital_period', y='eccentricity', data=data)
+plt.title('Orbital Period vs Eccentricity')
+
+plt.tight_layout()
 plt.show()
 
-# Correlation between features and correlation heatmap
-correlation_matrix = data[['orbital_radius', 'orbital_period', 'eccentricity', 'stellar_magnitude']].corr()
-sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
-plt.title("Correlation Between Orbital Characteristics and Stellar Magnitude")
-plt.show()
-
-
+#%%
+#* There is no clear correlation between an exoplanet's distance from its host star and its mass and radius relative to Jupiter as data points are broadly scattered.
+#* Exoplanets span a wide range of masses (from less than Jupiter to over 10 times Jupiter's mass) across the full range of observed orbital distances shown.
+#* While some clustering of lower mass planets occurs toward inner orbits, there are still exceptions. Broad spread suggests mass depends more strongly on other factors.
+#* Upper limit of exoplanet radius reduces with distance, but smaller outliers exist.
+#* Exoplanets display extensive diversity in radius across all observed orbital distances, indicating other influential factors in determining planet size.
 #%%
 
 interpretation = '''As we can see from the above plot, eccentricity and orbital period have  a positive correlation. When eccentricity increases, the orbital period also increases in a linear fashion and vice versa.
